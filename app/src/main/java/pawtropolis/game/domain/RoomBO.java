@@ -1,6 +1,7 @@
 package pawtropolis.game.domain;
 
 import lombok.*;
+import org.springframework.util.ObjectUtils;
 import pawtropolis.game.domain.animals.domain.AnimalBO;
 import pawtropolis.game.map.util.CardinalPoint;
 
@@ -18,7 +19,7 @@ public class RoomBO implements BusinessObject {
     private  final Map<ItemBO, Integer> items;
     private final List<AnimalBO> animals;
     private final EnumMap<CardinalPoint, RoomBO> adjacentRooms;
-
+    private final Map<CardinalPoint,DoorBO> adjacentDoors = new HashMap<>();
     private RoomBO(Long id, String name, Map<ItemBO, Integer> items, List<AnimalBO> animals, EnumMap<CardinalPoint, RoomBO> adjacentRooms) {
         this.id = id;
         this.name = name;
@@ -30,7 +31,9 @@ public class RoomBO implements BusinessObject {
     public RoomBO getAdjacentRoom(CardinalPoint cardinalPoint) {
         return this.adjacentRooms.get(cardinalPoint);
     }
-
+    public DoorBO getAdjacentDoor(CardinalPoint cardinalPoint) {
+        return this.adjacentDoors.get(cardinalPoint);
+    }
     public Map<ItemBO, Integer> getItems() {
         return Map.copyOf(this.items);
     }
@@ -74,15 +77,18 @@ public class RoomBO implements BusinessObject {
         animals.remove(animal);
     }
 
-    public void linkRoom(CardinalPoint cardinalPoint, RoomBO roomBO) {
+    public void linkRoom(CardinalPoint cardinalPoint, RoomBO roomBO, DoorBO doorBO) {
         this.adjacentRooms.put(cardinalPoint, roomBO);
+        this.adjacentDoors.put(cardinalPoint,doorBO);
         CardinalPoint opposite = cardinalPoint.getOpposite();
         RoomBO oppositeRoom = roomBO.getAdjacentRoom(opposite);
         if (oppositeRoom != this) {
-            roomBO.linkRoom(opposite, this);
+            roomBO.linkRoom(opposite, this,doorBO);
         }
     }
-
+    public DoorBO getDoor(CardinalPoint cardinalPoint){
+        return adjacentDoors.get(cardinalPoint);
+    }
     public List<AnimalBO> getAnimals() {
         return List.copyOf(this.animals);
     }

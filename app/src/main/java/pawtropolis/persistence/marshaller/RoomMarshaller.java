@@ -82,7 +82,7 @@ public class RoomMarshaller implements Marshaller<Room, RoomBO> {
             room.getAdjacentRooms().forEach(((cardinal, adjacentRoom) -> {
                 unmarshallAllLinkedRooms(adjacentRoom, convertedRooms);
                 RoomBO adjacentRoomBO = convertedRooms.get(adjacentRoom);
-                roomBO.linkRoom(cardinal, adjacentRoomBO);
+                roomBO.linkRoom(cardinal, adjacentRoomBO,roomBO.getAdjacentDoors().get(cardinal));
             }));
         }
         return convertedRooms;

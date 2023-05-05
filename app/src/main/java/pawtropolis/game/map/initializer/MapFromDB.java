@@ -7,7 +7,6 @@ import pawtropolis.persistence.service.RoomService;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class MapFromDB implements MapInitializer{
 
     private final RoomService roomService;

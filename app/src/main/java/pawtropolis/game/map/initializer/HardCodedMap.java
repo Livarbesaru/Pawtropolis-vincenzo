@@ -85,16 +85,16 @@ public class HardCodedMap implements MapInitializer {
         RoomBO roomWest = RoomBO.builder().name("Room WEST").build();
 
         DoorBO northDoor = DoorBO.builder().build();
-        northDoor.setHashKey(ball.getHashKey());
+        northDoor.setKeyItem(ball);
 
         DoorBO southDoor = DoorBO.builder().build();
-        southDoor.setHashKey(glasses.getHashKey());
+        southDoor.setKeyItem(glasses);
 
         DoorBO eastDoor = DoorBO.builder().build();
-        eastDoor.setHashKey(parruccaPlatinet.getHashKey());
+        eastDoor.setKeyItem(parruccaPlatinet);
 
         DoorBO westDoor = DoorBO.builder().build();
-        westDoor.setHashKey(hat.getHashKey());
+        westDoor.setKeyItem(hat);
 
         starterRoom.addAllAnimals(List.of(eva, gina, teodora));
         roomSouth.addAllAnimals(List.of(lio, beppe));

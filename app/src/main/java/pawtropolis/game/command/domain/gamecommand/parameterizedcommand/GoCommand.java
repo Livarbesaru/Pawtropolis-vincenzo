@@ -57,7 +57,8 @@ public class GoCommand extends ParameterizedCommand {
         log.info("Choose an item in your bag to use as key");
         String chosenItemString = new Scanner(System.in).nextLine();
         ItemBO chosenItemObj = mapItems.get(chosenItemString);
-        if(!ObjectUtils.isEmpty(chosenItemObj) && doorBO.changeState(chosenItemObj.getHashKey())){
+        if(!ObjectUtils.isEmpty(chosenItemObj) && doorBO.changeState(chosenItemObj)){
+            player.removeItem(chosenItemObj);
             log.info("You unlocked the door!");
             gameSessionBO.setCurrentRoom(adjacentRoom);
         }else{

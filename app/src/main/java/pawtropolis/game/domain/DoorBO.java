@@ -7,15 +7,15 @@ import lombok.Getter;
 @Builder
 public class DoorBO implements BusinessObject{
     private boolean isOpen;
-    private int hashKey;
+    private ItemBO keyItem;
 
-    public boolean changeState(int hashKey){
-        if(this.hashKey == hashKey){
+    public boolean changeState(ItemBO keyItem){
+        if(this.keyItem.getHashKey() == keyItem.getHashKey()){
             isOpen = true;
         }
         return isOpen;
     }
-    public void setHashKey(int hashKey){
-        this.hashKey = hashKey;
+    public void setKeyItem(ItemBO keyItem){
+        this.keyItem = keyItem;
     }
 }

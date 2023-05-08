@@ -52,17 +52,22 @@ public class GoCommand extends ParameterizedCommand {
 
     private void useItemToOpen(DoorBO doorBO, RoomBO adjacentRoom){
         PlayerBO player = this.gameSessionBO.getPlayer();
-        Map<String, ItemBO> mapItems = new HashMap<>();
-        player.getBag().getItems().forEach((item,qnt)-> mapItems.put(item.getName(),item));
-        log.info("Choose an item in your bag to use as key");
-        String chosenItemString = new Scanner(System.in).nextLine();
-        ItemBO chosenItemObj = mapItems.get(chosenItemString);
-        if(!ObjectUtils.isEmpty(chosenItemObj) && doorBO.changeState(chosenItemObj)){
-            player.removeItem(chosenItemObj);
-            log.info("You unlocked the door!");
-            gameSessionBO.setCurrentRoom(adjacentRoom);
+        if(player.getBag().getItems().size() > 0){
+            Map<String, ItemBO>mapItems = new HashMap<>();
+            player.getBag().getItems().forEach((item,qnt)-> mapItems.put(item.getName(),item));
+
+            String chosenItemString = InputController.readChoice("Choose an item in your bag to use as key",mapItems.keySet().stream().toList());
+            ItemBO chosenItemObj = mapItems.get(chosenItemString);
+
+            if(!ObjectUtils.isEmpty(chosenItemObj) && doorBO.changeState(chosenItemObj)){
+                player.removeItem(chosenItemObj);
+                log.info("You unlocked the door!");
+                gameSessionBO.setCurrentRoom(adjacentRoom);
+            }else{
+                log.info("This is not the right item");
+            }
         }else{
-            log.info("This is not the right item");
+            log.info("you don't have items in your beg to use as key");
         }
     }
 }
